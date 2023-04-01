@@ -31,28 +31,30 @@ def login():
 
 def ler_usuarios():
     try:
-        sql = 'SELECT * from  usuarios'
+        sql = 'SELECT * from usuarios'
         cursor.execute(sql)
-        linhas = cursor.fetchall()
+        result = cursor.fetchall()
 
-        nome_width = 4
-        email_width = 40
+        id_width = 4
+        nome_width = 20
+        email_width = 25
         senha_width = 17
-        plano_width = 60
+        plano_width = 20
         tipo_width = 18
-        idade_width = 20
+        idade_width = 10
 
-        header = f"|{'ID':^{nome_width}}|{'TÍTULO':^{email_width}}|{'PLANO':^{senha_width}}|" \
-                 f"{'DESCRIÇÃO':^{plano_width}}|{'CLASSIFICAÇÃO':^{tipo_width}}|"
+        header = f"|{'ID':^{id_width}}|{'NOME':^{nome_width}}|{'E-MAIL':^{email_width}}|" \
+                 f"{'SENHA':^{senha_width}}|{'PLANO':^{plano_width}}|{'TIPO':^{tipo_width}}|{'IDADE':^{idade_width}}"
 
         print("-" * len(header))
         print(header)
         print("-" * len(header))
 
-        for linha in linhas:
-            filmes = f"|{linha[0]:^{nome_width}}|{linha[1]:^{email_width}}|{linha[2]:^{senha_width}}|" \
-                     f"{linha[3]:^{plano_width}}|{linha[4]:^{tipo_width}}|"
-            print(filmes)
+        for usuarios in result:
+            usuarios = f"|{usuarios[0]:^{id_width}}|{usuarios[1]:^{nome_width}}|{usuarios[2]:^{email_width}}|" \
+                    f"{usuarios[3]:^{senha_width}}|{usuarios[4]:^{plano_width}}|{usuarios[5]:^{tipo_width}}|" \
+                    f"{usuarios[6]:^{idade_width}}"
+            print(usuarios)
         print("-" * len(header))
 
     except Error as e:
