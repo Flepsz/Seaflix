@@ -1,6 +1,7 @@
 import inquirer
 from create import criar_user, criar_filmes
-from read import ler_filmes, login
+from read import ler_filmes, ler_usuarios, login
+from connect import conexao
 
 
 def menu():
@@ -8,7 +9,8 @@ def menu():
         questions = [
             inquirer.List('modes',
                           message="Menu",
-                          choices=['Sair', 'Cadastrar', 'Entrar', 'Registrar filme', 'Lista filmes'],
+                          choices=['Sair', 'Cadastrar Usuário', 'Entrar', 'Registrar Filme', 'Listar Filmes',
+                                   'Listar Usuários'],
                           ),
         ]
         answers = inquirer.prompt(questions)
@@ -17,7 +19,7 @@ def menu():
         if modules == 'Sair':
             break
 
-        elif modules == 'Cadastrar Usuários':
+        elif modules == 'Cadastrar Usuário':
             criar_user()
 
         elif modules == 'Entrar':
@@ -26,8 +28,21 @@ def menu():
         elif modules == 'Registrar Filme':
             criar_filmes()
 
-        elif modules == 'Lista Filmes':
+        elif modules == 'Listar Filmes':
             ler_filmes()
+
+        elif modules == 'Listar Usuários':
+            cursor = conexao.cursor()
+            sql = "SELECT tipo FROM usuarios WHERE email = %s"
+            email = input("Digite o e-mail do usuário com permissão para listar: ")
+            val = (email,)
+            cursor.execute(sql, val)
+            tipo_usuario = cursor.fetchone()[0]
+
+            if tipo_usuario == "Admin":
+                ler_usuarios()
+            else:
+                print("Acesso negado. Você não tem permissão para listar usuários.")
 
 
 menu()
