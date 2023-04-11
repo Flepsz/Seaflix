@@ -1,7 +1,8 @@
 import inquirer
 from create import criar_user, criar_filmes
 from read import ler_filmes, ler_usuarios, login
-from connect import conexao
+from update import update_user, update_film
+from delete import excluir_user, excluir_film
 
 
 def menu():
@@ -9,8 +10,8 @@ def menu():
         questions = [
             inquirer.List('modes',
                           message="Menu",
-                          choices=['Sair', 'Cadastrar Usuário', 'Entrar', 'Registrar Filme', 'Listar Filmes',
-                                   'Listar Usuários'],
+                          choices=['Sair', 'Cadastrar Usuário', 'Entrar', 'Registrar Filme',
+                                   'Listar', 'Atualizar', 'Excluir'],
                           ),
         ]
         answers = inquirer.prompt(questions)
@@ -28,21 +29,53 @@ def menu():
         elif modules == 'Registrar Filme':
             criar_filmes()
 
-        elif modules == 'Listar Filmes':
-            ler_filmes()
+        elif modules == 'Listar':
+            listar = [
+                inquirer.List('read',
+                              message="Deseja listar o que?",
+                              choices=['Usuários', 'Filmes'],
+                              ),
+            ]
+            answers = inquirer.prompt(listar)
+            read = answers['read']
 
-        elif modules == 'Listar Usuários':
-            cursor = conexao.cursor()
-            sql = "SELECT tipo FROM usuarios WHERE email = %s"
-            email = input("Digite o e-mail do usuário com permissão para listar: ")
-            val = (email,)
-            cursor.execute(sql, val)
-            tipo_usuario = cursor.fetchone()[0]
-
-            if tipo_usuario == "Admin":
+            if read == 'Usuários':
                 ler_usuarios()
-            else:
-                print("Acesso negado. Você não tem permissão para listar usuários.")
+
+            elif read == 'Filmes':
+                ler_filmes()
+
+        elif modules == 'Atualizar':
+            update = [
+                inquirer.List('updt',
+                              message="Deseja atualizar o que?",
+                              choices=['Usuários', 'Filmes'],
+                              ),
+            ]
+            answers = inquirer.prompt(update)
+            updt = answers['updt']
+
+            if updt == 'Usuários':
+                update_user()
+
+            elif updt == 'Filmes':
+                update_film()
+
+        elif modules == 'Excluir':
+            delete = [
+                inquirer.List('dele',
+                              message="Deseja atualizar o que?",
+                              choices=['Usuários', 'Filmes'],
+                              ),
+            ]
+            answers = inquirer.prompt(delete)
+            dele = answers['dele']
+
+            if dele == 'Usuários':
+                excluir_user()
+
+            if dele == 'Filmes':
+                excluir_film()
 
 
 menu()
