@@ -30,40 +30,51 @@ def login():
 
 
 def ler_usuarios():
-    try:
-        sql = 'SELECT * from usuarios'
-        cursor.execute(sql)
-        result = cursor.fetchall()
+    sql = "SELECT tipo FROM usuarios WHERE email = %s"
+    email = input("Digite o e-mail do usuário com permissão para listar: ")
+    val = (email,)
+    cursor.execute(sql, val)
+    tipo_usuario = cursor.fetchone()[0]
 
-        id_width = 4
-        nome_width = 20
-        email_width = 25
-        senha_width = 17
-        plano_width = 20
-        tipo_width = 18
-        idade_width = 10
+    if tipo_usuario == "Admin":
+        try:
+            sql = 'SELECT * from usuarios'
+            cursor.execute(sql)
+            result = cursor.fetchall()
 
-        header = f"|{'ID':^{id_width}}|{'NOME':^{nome_width}}|{'E-MAIL':^{email_width}}|" \
-                 f"{'SENHA':^{senha_width}}|{'PLANO':^{plano_width}}|{'TIPO':^{tipo_width}}|{'IDADE':^{idade_width}}"
+            id_width = 4
+            nome_width = 20
+            email_width = 25
+            senha_width = 17
+            plano_width = 20
+            tipo_width = 18
+            idade_width = 10
 
-        print("-" * len(header))
-        print(header)
-        print("-" * len(header))
+            header = f"|{'ID':^{id_width}}|{'NOME':^{nome_width}}|{'E-MAIL':^{email_width}}|" \
+                     f"{'SENHA':^{senha_width}}|{'PLANO':^{plano_width}}|{'TIPO':^{tipo_width}}|{'IDADE':^{idade_width}}"
 
-        for usuarios in result:
-            usuarios = f"|{usuarios[0]:^{id_width}}|{usuarios[1]:^{nome_width}}|{usuarios[2]:^{email_width}}|" \
-                    f"{usuarios[3]:^{senha_width}}|{usuarios[4]:^{plano_width}}|{usuarios[5]:^{tipo_width}}|" \
-                    f"{usuarios[6]:^{idade_width}}"
-            print(usuarios)
-        print("-" * len(header))
+            print("-" * len(header))
+            print(header)
+            print("-" * len(header))
 
-    except Error as e:
-        print(f'Erro: {e}')
+            for usuarios in result:
+                usuarios = f"|{usuarios[0]:^{id_width}}|{usuarios[1]:^{nome_width}}|{usuarios[2]:^{email_width}}|" \
+                        f"{usuarios[3]:^{senha_width}}|{usuarios[4]:^{plano_width}}|{usuarios[5]:^{tipo_width}}|" \
+                        f"{usuarios[6]:^{idade_width}}"
+                print(usuarios)
+            print("-" * len(header))
+            print('\n\n')
 
-    finally:
-        if conexao.is_connected():
-            cursor.close()
-            conexao.close()
+        except Error as e:
+            print(f'Erro: {e}')
+
+        finally:
+            if conexao.is_connected():
+                cursor.close()
+                conexao.close()
+
+    else:
+        print("Acesso negado. Você não tem permissão para listar usuários.")
 
 
 def ler_filmes():
@@ -90,6 +101,7 @@ def ler_filmes():
                      f"{linha[3]:^{descricao_width}}|{linha[4]:^{classificacao_width}}|"
             print(filmes)
         print("-" * len(header))
+        print('\n\n')
 
     except Error as e:
         print(f'Erro: {e}')
