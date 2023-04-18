@@ -11,9 +11,9 @@ def criar_user(nome, idade, email, plano, tipo):
     senha = getpass.getpass("Digite sua senha: ")
     plano = input("Digite o novo plano do usuário (Basic, Medium ou Premium): ").title()
     tipo = input("Escolha seu tipo de Usuário (User ou Admin): ")
-    sql = "INSERT INTO usuarios(usuario, email, senha, plano, tipo, idade) values (%s, %s, %s, %s, %s, %s)"
-    val = (nome, email, senha, plano, tipo, idade)
-    cursor.execute(sql, val)
+    sql = "INSERT INTO usuarios(usuario, email, senha, plano, tipo, idade) \
+    values ('{nome}','{email}','{senha}','{plano}','{tipo}', '{idade}')"
+    cursor.execute(sql)
     conexao.commit()
 
     print("Usuário cadastrado com sucesso")
@@ -25,10 +25,10 @@ def criar_filmes():
     descricao = input("Descrição: ").title()
     classficacao = input('Digite a classificação do filme (em idade): ')
 
-    sql = "INSERT INTO filmes(filme, plano, descricao, class) values (%s, %s, %s, %s)"
-    valores = (titulo, plano, descricao, classficacao)
+    sql = "INSERT INTO filmes(filme, plano, descricao, class) \ 
+    values ('{titulo}','{plano}','{descricao}','{class}','{plan}')"
 
-    cursor.execute(sql, valores)
+    cursor.execute(sql)
     conexao.commit()
 
     print("Filme registrado com sucesso")
