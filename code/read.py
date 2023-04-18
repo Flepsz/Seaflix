@@ -10,9 +10,8 @@ def login():
         email = input("Digite seu e-mail: ")
         senha = getpass.getpass("Digite sua senha: ")
 
-        sql = "SELECT * FROM usuarios WHERE email = %s AND senha = %s"
-        val = (email, senha)
-        cursor.execute(sql, val)
+        sql = f"SELECT * FROM usuarios WHERE email = {email} AND senha = {senha}"
+        cursor.execute(sql)
         result = cursor.fetchone()
 
         if result:
@@ -30,10 +29,9 @@ def login():
 
 
 def ler_usuarios():
-    sql = "SELECT tipo FROM usuarios WHERE email = %s"
     email = input("Digite o e-mail do usuário com permissão para listar: ")
-    val = (email,)
-    cursor.execute(sql, val)
+    sql = f"SELECT tipo FROM usuarios WHERE email = {email}"
+    cursor.execute(sql)
     tipo_usuario = cursor.fetchone()[0]
 
     if tipo_usuario == "Admin":
