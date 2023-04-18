@@ -15,10 +15,9 @@ def excluir_user():
     elif result[0] != "Admin":
         print("Acesso negado. Você não tem permissão para excluir esse usuário.")
     else:
-        email = input("Digite o e-mail do usuário a ser excluído: ")
-        sql = "DELETE FROM usuarios WHERE email = %s"
-        val = (email,)
-        cursor.execute(sql, val)
+        id_usr = int(input("Digite o id do usuário a ser excluído: "))
+        sql = f"DELETE FROM filmes WHERE idUsuario = {id_usr}"
+        cursor.execute(sql)
         conexao.commit()
 
         print("Usuário excluído com sucesso")
@@ -36,10 +35,9 @@ def excluir_film():
     elif result[0] != "Admin":
         print("Acesso negado. Você não tem permissão para excluir filmes.")
     else:
-        id_filme = input("Digite o ID do filme a ser excluído: ")
-        sql = "DELETE FROM filmes WHERE id_filme = %s"
-        val = (id_filme,)
-        cursor.execute(sql, val)
+        id_filme = int(input("Digite o ID do filme a ser excluído: "))
+        sql = f"DELETE FROM filmes WHERE idFilme = {id_filme}"
+        cursor.execute(sql)
         conexao.commit()
 
         if cursor.rowcount == 0:
