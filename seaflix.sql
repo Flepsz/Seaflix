@@ -6,7 +6,6 @@ CREATE TABLE usuarios(
 	idUsuario int auto_increment primary key,
     usuario varchar(50) not null,
     email varchar(100) not null,
-    senha varchar(50) not null,
     plano varchar(50),
     tipo varchar(50),
     idade int
@@ -20,10 +19,10 @@ CREATE TABLE filmes(
 	class int 
 );
 
-INSERT INTO usuarios(usuario, email, senha, plano, tipo, idade)
+INSERT INTO usuarios(usuario, email, plano, tipo, idade)
 values
-	('Felipe', 'flepsz@gmail.com', '1234', 'Premium', 'Admin', '17'),
-    ('Horn', 'hornzz@gmail.com', 'batata', 'Basic', 'User', '18');
+	('Felipe', 'flepsz@gmail.com', 'Premium', 'Admin', '17'),
+    ('Horn', 'hornzz@gmail.com', 'Basic', 'User', '18');
     
 select * from usuarios;
 
